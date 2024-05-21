@@ -31,7 +31,7 @@ This process typically takes around ten minutes.
 
 ```bash
 kurtosis clean --all
-kurtosis run --enclave cdk-v1 --args-file params.yml --image-download always .
+kurtosis run --enclave bdk-L3 --args-file params.yml --image-download always .
 ```
 
 Let's do a simple L2 RPC test call.
@@ -39,7 +39,7 @@ Let's do a simple L2 RPC test call.
 First, you will need to figure out which port Kurtoiss is using for the RPC. You can get a general feel for the entire network layout by running the following command:
 
 ```bash
-kurtosis enclave inspect cdk-v1
+kurtosis enclave inspect bdk-L3
 ```
 
 That output is quite useful might might also be a little overwhelming. If you want to simply see the port mapping within the `cdk-v1` enclave for the `zkevm-node-rpc` service and the `trusted-rpc` port, you can use the following command. For this test, let's store the RPC URL in an environment variable.
@@ -76,16 +76,16 @@ polycli loadtest --rpc-url "$ETH_RPC_URL" --legacy --private-key "$PK" --verbosi
 polycli loadtest --rpc-url "$ETH_RPC_URL" --legacy --private-key "$PK" --verbosity 700 --requests 500 --rate-limit 3  --mode uniswapv3
 ```
 
-Pretty often, you will want to check the output from the service. Here is how you can grab some logs:
+Regularly check the output from the service. Here is how you can grab some logs:
 
 ```bash
-kurtosis service logs cdk-v1 zkevm-agglayer-001
+kurtosis service logs bdk-L3 zkevm-agglayer-001
 ```
 
 In other cases, if you see an error, you might want to get a shell in the container to be able to poke around.
 
 ```bash
-kurtosis service shell cdk-v1 zkevm-node-sequencer-001
+kurtosis service shell bdk-L3 zkevm-node-sequencer-001
 ```
 
 One of the most common ways to check the status of the system is to make sure that batches are going through the normal progression of trusted, virtual, and verified:
